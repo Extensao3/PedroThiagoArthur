@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Fiel Patrocínio — App Cliente</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1B6B3A;
+    --verde-claro: #27A85A;
+    --verde-menta: #E8F5EE;
+    --verde-escuro: #0d4a28;
+    --cafe: #6B3A1B;
+    --cafe-claro: #C07940;
+    --amarelo: #F5C842;
+    --preto: #111;
+    --cinza: #888;
+    --cinza-claro: #F4F4F4;
+    --cinza-borda: #EBEBEB;
+    --branco: #fff;
+    --radius: 16px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.09);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #1a1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  /* ===== TOP BACK BAR ===== */
+  .top-bar {
+    width: 100%;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #222;
+  }
+  .top-bar-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--verde-claro);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .top-bar-logo span { color: var(--amarelo); }
+  .back-btn {
+    font-size: 13px;
+    color: #888;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    transition: color 0.2s;
+    background: none;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .back-btn:hover { color: white; }
+  .top-bar-label {
+    font-size: 11px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  /* ===== APP WRAPPER ===== */
+  .app-wrapper {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px 48px;
+  }
+
+  /* ===== PHONE FRAME ===== */
+  .phone-frame {
+    width: 375px;
+    min-height: 720px;
+    background: var(--cinza-claro);
+    border-radius: 44px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 10px #2a2a2a, 0 0 0 11px #333;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  /* Status bar */
+  .status-bar {
+    height: 44px;
+    background: var(--verde);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    flex-shrink: 0;
+  }
+  .status-bar span { color: rgba(255,255,255,0.85); font-size: 12px; font-weight: 500; }
+
+  /* ===== SCREENS ===== */
+  .screen { display: none; flex-direction: column; flex: 1; background: var(--cinza-claro); }
+  .screen.active { display: flex; }
+  .screen-inner { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+  .screen-inner::-webkit-scrollbar { display: none; }
+
+  /* ===== LOGIN ===== */
+  #screen-login {
+    background: var(--verde);
+  }
+  .login-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    gap: 28px;
+    background: var(--verde);
+  }
+  .login-logo {
+    text-align: center;
+    color: white;
+  }
+  .login-logo .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+  }
+  .login-logo .logo-text span { color: var(--amarelo); }
+  .login-logo p { font-size: 13px; opacity: 0.6; margin-top: 6px; }
+  .login-form {
+    background: white;
+    border-radius: 22px;
+    padding: 26px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+  .login-form h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .form-input {
+    width: 100%;
+    border: 1.5px solid var(--cinza-borda);
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    color: var(--preto);
+  }
+  .form-input:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgba(27,107,58,0.08); }
+  .btn-login {
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 15px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+  }
+  .btn-login:hover { background: var(--verde-escuro); }
+  .login-link { text-align: center; font-size: 12px; color: var(--cinza); }
+  .login-link a { color: var(--verde); font-weight: 600; cursor: pointer; }
+  .login-footer { font-size: 11px; color: rgba(255,255,255,0.4); text-align: center; }
+
+  /* ===== APP HEADER ===== */
+  .app-header {
+    background: var(--verde);
+    padding: 18px 20px 24px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .app-header p { font-size: 13px; opacity: 0.7; }
+  .app-header h2 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-top: 2px; }
+  .header-badge {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--preto);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-top: 6px;
+  }
+
+  /* ===== PONTOS CARD ===== */
+  .pontos-card {
+    background: linear-gradient(135deg, var(--verde), var(--verde-escuro));
+    border-radius: 22px;
+    margin: -12px 16px 16px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 8px 28px rgba(27,107,58,0.4);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .pontos-card::before {
+    content: '';
+    position: absolute; right: -20px; top: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .pontos-card .pts-lbl { font-size: 11px; opacity: 0.65; margin-bottom: 6px; }
+  .pontos-card .pts-num { font-family: 'Syne', sans-serif; font-size: 46px; font-weight: 800; line-height: 1; }
+  .pontos-card .pts-sub { font-size: 11px; opacity: 0.55; margin-top: 5px; }
+
+  /* ===== QUICK ACTIONS ===== */
+  .quick-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 0 16px 16px;
+    flex-shrink: 0;
+  }
+  .qa-btn {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    border: none;
+    text-align: left;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .qa-btn:active { transform: scale(0.97); }
+  .qa-btn:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+  .qa-btn .qa-icon { font-size: 22px; }
+  .qa-btn .qa-label { font-size: 12px; font-weight: 600; color: var(--preto); }
+  .qa-btn .qa-sub { font-size: 10px; color: var(--cinza); }
+
+  /* ===== SECTION HEADER ===== */
+  .sec-hdr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 16px 8px;
+  }
+  .sec-hdr h3 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+  .sec-hdr a { font-size: 12px; color: var(--verde); cursor: pointer; font-weight: 500; }
+
+  /* ===== PARCEIRO ITEM ===== */
+  .parceiro-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 16px 8px;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: box-shadow 0.15s;
+  }
+  .parceiro-item:hover { box-shadow: 0 3px 14px rgba(0,0,0,0.09); }
+  .p-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .p-info { flex: 1; }
+  .p-info strong { font-size: 13px; display: block; font-weight: 600; }
+  .p-info span { font-size: 11px; color: var(--cinza); }
+  .p-badge { background: var(--verde-menta); color: var(--verde); font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 100px; white-space: nowrap; }
+
+  /* ===== HISTORICO ===== */
+  .hist-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    background: white;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .hist-dot { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .hist-dot.ganhou { background: var(--verde-menta); }
+  .hist-dot.resgatou { background: #FFF3E0; }
+  .hist-info { flex: 1; }
+  .hist-info strong { font-size: 13px; font-weight: 600; display: block; }
+  .hist-info span { font-size: 11px; color: var(--cinza); }
+  .hist-pts { font-size: 13px; font-weight: 700; }
+  .hist-pts.pos { color: var(--verde-claro); }
+  .hist-pts.neg { color: var(--cafe-claro); }
+
+  /* ===== QR SCREEN ===== */
+  .qr-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 20px;
+    gap: 16px;
+  }
+  .qr-viewfinder {
+    width: 220px;
+    height: 220px;
+    background: #1a1a1a;
+    border-radius: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  }
+  .qr-inner-box {
+    width: 160px;
+    height: 160px;
+    border: 2px solid var(--verde-claro);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    position: relative;
+  }
+  .qr-corner {
+    position: absolute;
+    width: 18px; height: 18px;
+    border-color: var(--verde-claro);
+    border-style: solid;
+    border-width: 0;
+  }
+  .qr-corner.tl { top: -2px; left: -2px; border-top-width: 3px; border-left-width: 3px; border-radius: 3px 0 0 0; }
+  .qr-corner.tr { top: -2px; right: -2px; border-top-width: 3px; border-right-width: 3px; border-radius: 0 3px 0 0; }
+  .qr-corner.bl { bottom: -2px; left: -2px; border-bottom-width: 3px; border-left-width: 3px; border-radius: 0 0 0 3px; }
+  .qr-corner.br { bottom: -2px; right: -2px; border-bottom-width: 3px; border-right-width: 3px; border-radius: 0 0 3px 0; }
+  .scan-line {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--verde-claro);
+    border-radius: 2px;
+    opacity: 0.8;
+    animation: scanDown 2s ease-in-out infinite;
+  }
+  @keyframes scanDown {
+    0% { top: 0; }
+    50% { top: calc(100% - 2px); }
+    100% { top: 0; }
+  }
+  .qr-info-card {
+    background: var(--verde-menta);
+    border-radius: 14px;
+    padding: 14px 16px;
+    width: 100%;
+  }
+  .qr-info-card .qi-title { font-size: 13px; color: var(--verde); font-weight: 600; margin-bottom: 4px; }
+  .qr-info-card .qi-desc { font-size: 12px; color: #555; line-height: 1.5; }
+
+  /* ===== PLUS ===== */
+  .plus-hero {
+    background: linear-gradient(135deg, var(--amarelo), #E8A020);
+    padding: 28px 20px;
+    color: var(--preto);
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .plus-hero h3 { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; }
+  .plus-hero .plus-sub { font-size: 13px; opacity: 0.65; margin: 4px 0 14px; }
+  .plus-price { font-family: 'Syne', sans-serif; font-size: 44px; font-weight: 800; }
+  .plus-price sup { font-size: 18px; vertical-align: super; }
+  .plus-price sub { font-size: 16px; }
+  .plus-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    background: white;
+    flex-shrink: 0;
+  }
+  .plus-feature .feat-icon { font-size: 20px; width: 30px; }
+  .plus-feature span { font-size: 13px; }
+  .btn-assinar {
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 17px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    width: calc(100% - 32px);
+    margin: 18px 16px 4px;
+    display: block;
+    transition: all 0.2s;
+  }
+  .btn-assinar:hover { background: var(--verde-escuro); }
+  .plus-cancel { text-align: center; font-size: 11px; color: var(--cinza); padding: 0 16px 20px; }
+
+  /* ===== MAPA ===== */
+  .mapa-preview {
+    background: #c8e6c9;
+    height: 160px;
+    margin: 14px 16px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 36px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    flex-shrink: 0;
+  }
+  .mapa-preview small { font-size: 12px; color: #555; }
+
+  /* ===== RESGATAR ===== */
+  .resgate-card {
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    margin: 0 16px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .resgate-info strong { font-size: 13px; font-weight: 600; display: block; margin-bottom: 2px; }
+  .resgate-info span { font-size: 11px; color: var(--cinza); }
+  .resgate-right { text-align: right; }
+  .resgate-pts { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; color: var(--verde); }
+  .btn-resgatar {
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .btn-resgatar:hover { background: var(--verde-escuro); }
+
+  /* ===== PERFIL ===== */
+  .perfil-header {
+    background: var(--verde);
+    padding: 22px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+  }
+  .perfil-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--amarelo);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  .perfil-header h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
+  .perfil-header p { font-size: 12px; opacity: 0.65; margin-top: 2px; }
+  .perfil-group-label {
+    padding: 12px 16px 4px;
+    font-size: 10px;
+    color: #aaa;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: white;
+  }
+  .perfil-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: white;
+    border-bottom: 1px solid #f4f4f4;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .perfil-item:hover { background: #fafafa; }
+  .perfil-item .pi-icon { font-size: 18px; width: 26px; text-align: center; }
+  .perfil-item span.pi-text { font-size: 14px; flex: 1; }
+  .perfil-item .pi-arrow { color: #ccc; font-size: 18px; }
+
+  /* ===== SECTION TITLE SMALL ===== */
+  .section-title-sm {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 10px 16px 6px;
+    background: var(--cinza-claro);
+  }
+
+  /* ===== BOTTOM NAV ===== */
+  .bottom-nav {
+    background: white;
+    border-top: 1px solid #ebebeb;
+    display: flex;
+    padding: 6px 0 18px;
+    flex-shrink: 0;
+    box-shadow: 0 -3px 12px rgba(0,0,0,0.05);
+  }
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 4px;
+    transition: all 0.15s;
+  }
+  .bnav-item .bn-icon { font-size: 20px; }
+  .bnav-item .bn-label { font-size: 10px; color: #bbb; font-weight: 500; }
+  .bnav-item.active .bn-label { color: var(--verde); font-weight: 600; }
+  .bnav-qr .bn-icon-wrap {
+    background: var(--verde);
+    color: white;
+    border-radius: 50%;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-top: -14px;
+    box-shadow: 0 4px 14px rgba(27,107,58,0.4);
+    transition: transform 0.15s;
+  }
+  .bnav-qr .bn-icon-wrap:active { transform: scale(0.94); }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%; transform: translateX(-50%) translateY(80px);
+    background: var(--preto);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 9999;
+    white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.success { background: var(--verde); }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a class="back-btn" href="index.html">← Voltar ao site</a>
+  <div class="top-bar-logo">🌿 Fiel <span>Patrocínio</span></div>
+  <div class="top-bar-label">App Cliente</div>
+</div>
+
+<!-- APP WRAPPER -->
+<div class="app-wrapper">
+  <div class="phone-frame">
+
+    <!-- Status Bar -->
+    <div class="status-bar" id="status-bar">
+      <span>9:41</span>
+      <span>📶 🔋</span>
+    </div>
+
+    <!-- ===== LOGIN ===== -->
+    <div class="screen active" id="screen-login">
+      <div class="login-body">
+        <div class="login-logo">
+          <div class="logo-text">🌿 Fiel <span>Patrocínio</span></div>
+          <p>Fidelidade para o comércio local</p>
+        </div>
+        <div class="login-form">
+          <h3>Entrar</h3>
+          <input class="form-input" type="email" placeholder="📧 E-mail ou CPF">
+          <input class="form-input" type="password" placeholder="🔒 Senha">
+          <button class="btn-login" onclick="goTo('home')">Entrar →</button>
+          <div class="login-link">Não tem conta? <a>Cadastre-se grátis</a></div>
+        </div>
+        <div class="login-footer">Patrocínio — MG 🍵</div>
+      </div>
+    </div>
+
+    <!-- ===== HOME ===== -->
+    <div class="screen" id="screen-home">
+      <div class="status-bar" style="height:0; display:none;"></div>
+      <div class="app-header">
+        <p>Olá, Tiago 👋</p>
+        <h2>Bom dia!</h2>
+        <div class="header-badge">✨ Fiel Plus ativo</div>
+      </div>
+      <div class="screen-inner" style="padding-top: 1.5rem;">
+        <div class="pontos-card">
+          <div class="pts-lbl">Seus pontos acumulados</div>
+          <div class="pts-num">1.240</div>
+          <div class="pts-sub">🏪 Válidos em 38 parceiros · Expira em 90 dias</div>
+        </div>
+        <div class="quick-actions">
+          <button class="qa-btn" onclick="goTo('qr')">
+            <span class="qa-icon">📷</span>
+            <span class="qa-label">Registrar compra</span>
+            <span class="qa-sub">Escanear QR do lojista</span>
+          </button>
+          <button class="qa-btn" onclick="goTo('resgatar')">
+            <span class="qa-icon">🎁</span>
+            <span class="qa-label">Resgatar pontos</span>
+            <span class="qa-sub">Ver prêmios e descontos</span>
+          </button>
+          <button class="qa-btn" onclick="goTo('mapa')">
+            <span class="qa-icon">🗺️</span>
+            <span class="qa-label">Parceiros</span>
+            <span class="qa-sub">38 lojas na rede</span>
+          </button>
+          <button class="qa-btn" onclick="goTo('historico')">
+            <span class="qa-icon">📋</span>
+            <span class="qa-label">Histórico</span>
+            <span class="qa-sub">Últimas transações</span>
+          </button>
+        </div>
+        <div class="sec-hdr"><h3>Parceiros em destaque</h3><a onclick="goTo('mapa')">Ver todos</a></div>
+        <div class="parceiro-item">
+          <div class="p-icon" style="background:#FFF3E0">☕</div>
+          <div class="p-info"><strong>Café do Cerrado</strong><span>Cafeteria · Centro</span></div>
+          <div class="p-badge">2x pontos</div>
+        </div>
+        <div class="parceiro-item">
+          <div class="p-icon" style="background:#E8F0FF">👗</div>
+          <div class="p-info"><strong>Moda Patrocínio</strong><span>Vestuário · Av. Brasil</span></div>
+          <div class="p-badge">+50 bônus</div>
+        </div>
+        <div class="parceiro-item">
+          <div class="p-icon" style="background:#F0FFF0">🥩</div>
+          <div class="p-info"><strong>Açougue do Zé</strong><span>Açougue · Bairro Novo</span></div>
+          <div class="p-badge">1pt / R$1</div>
+        </div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bottom-nav" id="bnav-home">
+        <div class="bnav-item active" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== MAPA ===== -->
+    <div class="screen" id="screen-mapa">
+      <div class="app-header"><h2>🗺️ Parceiros</h2><p>38 estabelecimentos na rede</p></div>
+      <div class="screen-inner">
+        <div class="mapa-preview">
+          <span>🗺️</span>
+          <small>Mapa de Patrocínio — MG</small>
+        </div>
+        <div class="sec-hdr" style="padding-top:4px"><h3>Próximos de você</h3></div>
+        <div class="parceiro-item"><div class="p-icon" style="background:#FFF3E0">☕</div><div class="p-info"><strong>Café do Cerrado</strong><span>120m · Cafeteria</span></div><div class="p-badge" style="background:#E8F5EE;color:var(--verde)">Aberto</div></div>
+        <div class="parceiro-item"><div class="p-icon" style="background:#FFE8E8">💊</div><div class="p-info"><strong>Farmácia Vitória</strong><span>280m · Saúde</span></div><div class="p-badge" style="background:#E8F5EE;color:var(--verde)">Aberto</div></div>
+        <div class="parceiro-item"><div class="p-icon" style="background:#E8F0FF">📚</div><div class="p-info"><strong>Livraria Ideal</strong><span>400m · Livros</span></div><div class="p-badge" style="background:#E8F5EE;color:var(--verde)">Aberto</div></div>
+        <div class="parceiro-item"><div class="p-icon" style="background:#F5F0FF">💄</div><div class="p-info"><strong>Salão Bella</strong><span>550m · Beleza</span></div><div class="p-badge" style="background:#f5f5f5;color:#aaa">Fechado</div></div>
+        <div class="parceiro-item"><div class="p-icon" style="background:#F0FFF0">🛒</div><div class="p-info"><strong>Mercadinho Central</strong><span>700m · Mercado</span></div><div class="p-badge" style="background:#E8F5EE;color:var(--verde)">Aberto</div></div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item active" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== QR ===== -->
+    <div class="screen" id="screen-qr">
+      <div class="app-header"><h2>📷 Registrar Compra</h2><p>Peça ao lojista para mostrar o QR Code</p></div>
+      <div class="qr-body">
+        <div class="qr-viewfinder">
+          <div class="qr-inner-box">
+            <div class="qr-corner tl"></div>
+            <div class="qr-corner tr"></div>
+            <div class="qr-corner bl"></div>
+            <div class="qr-corner br"></div>
+            <div class="scan-line"></div>
+            <span style="color:rgba(255,255,255,0.3); font-size:10px;">Câmera ativa</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Syne',sans-serif; font-size:17px; font-weight:700; text-align:center; margin-bottom:6px;">Aponte para o QR Code</div>
+          <p style="font-size:13px; color:var(--cinza); text-align:center; line-height:1.5;">O lojista mostrará o código na tela ou impresso no balcão</p>
+        </div>
+        <div class="qr-info-card">
+          <div class="qi-title">💡 Como funciona</div>
+          <div class="qi-desc">Cada compra registrada gera pontos automáticos na sua carteira Fiel.</div>
+        </div>
+        <button class="btn-assinar" style="margin:0; width:100%; border-radius:14px;" onclick="simulateScan()">✅ Simular leitura</button>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr active" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== HISTORICO ===== -->
+    <div class="screen" id="screen-historico">
+      <div class="app-header"><h2>📋 Histórico</h2><p>Suas transações recentes</p></div>
+      <div class="screen-inner">
+        <div class="section-title-sm">Hoje</div>
+        <div class="hist-item"><div class="hist-dot ganhou">☕</div><div class="hist-info"><strong>Café do Cerrado</strong><span>14:32 · Compra R$ 28,00</span></div><div class="hist-pts pos">+56 pts</div></div>
+        <div class="section-title-sm">Ontem</div>
+        <div class="hist-item"><div class="hist-dot ganhou">👗</div><div class="hist-info"><strong>Moda Patrocínio</strong><span>16:10 · Compra R$ 120,00</span></div><div class="hist-pts pos">+120 pts</div></div>
+        <div class="hist-item"><div class="hist-dot resgatou">🎁</div><div class="hist-info"><strong>Resgate: Desconto R$ 20</strong><span>11:05 · Café do Cerrado</span></div><div class="hist-pts neg">-200 pts</div></div>
+        <div class="section-title-sm">18 de março</div>
+        <div class="hist-item"><div class="hist-dot ganhou">🥩</div><div class="hist-info"><strong>Açougue do Zé</strong><span>10:22 · Compra R$ 65,00</span></div><div class="hist-pts pos">+65 pts</div></div>
+        <div class="hist-item"><div class="hist-dot ganhou">💊</div><div class="hist-info"><strong>Farmácia Vitória</strong><span>09:15 · Compra R$ 45,00</span></div><div class="hist-pts pos">+45 pts</div></div>
+        <div class="section-title-sm">15 de março</div>
+        <div class="hist-item"><div class="hist-dot ganhou">📚</div><div class="hist-info"><strong>Livraria Ideal</strong><span>14:00 · Compra R$ 82,00</span></div><div class="hist-pts pos">+82 pts</div></div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item active" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== RESGATAR ===== -->
+    <div class="screen" id="screen-resgatar">
+      <div class="app-header"><h2>🎁 Resgatar Pontos</h2><p>Você tem <strong>1.240 pts</strong> disponíveis</p></div>
+      <div class="screen-inner">
+        <div class="section-title-sm" style="background:var(--cinza-claro); display:block; padding:12px 16px 6px;">Descontos disponíveis</div>
+        <div class="resgate-card"><div class="resgate-info"><strong>Desconto R$ 10</strong><span>Válido em qualquer parceiro</span></div><div class="resgate-right"><div class="resgate-pts">100 pts</div><button class="btn-resgatar" onclick="toast('Desconto de R$10 resgatado! 🎉', 'success')">Resgatar</button></div></div>
+        <div class="resgate-card"><div class="resgate-info"><strong>Desconto R$ 25</strong><span>Válido em qualquer parceiro</span></div><div class="resgate-right"><div class="resgate-pts">230 pts</div><button class="btn-resgatar" onclick="toast('Desconto de R$25 resgatado! 🎉', 'success')">Resgatar</button></div></div>
+        <div class="resgate-card"><div class="resgate-info"><strong>Café grátis ☕</strong><span>Café do Cerrado · Expira 30/03</span></div><div class="resgate-right"><div class="resgate-pts">80 pts</div><button class="btn-resgatar" onclick="toast('Café grátis resgatado! ☕', 'success')">Resgatar</button></div></div>
+        <div class="section-title-sm" style="background:var(--cinza-claro); display:block; padding:12px 16px 6px; margin-top:4px;">Prêmios especiais</div>
+        <div class="resgate-card"><div class="resgate-info"><strong>Cesta básica 🛒</strong><span>Mercadinho Central · Limitado</span></div><div class="resgate-right"><div class="resgate-pts">1.200 pts</div><button class="btn-resgatar" onclick="toast('Cesta básica resgatada! 🛒', 'success')">Resgatar</button></div></div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== FIEL PLUS ===== -->
+    <div class="screen" id="screen-plus">
+      <div class="screen-inner">
+        <div class="plus-hero">
+          <div style="font-size:36px; margin-bottom:8px;">⭐</div>
+          <h3>Fiel Plus</h3>
+          <div class="plus-sub">Turbine sua fidelidade</div>
+          <div class="plus-price"><sup>R$</sup>14<sup>,90</sup><sub>/mês</sub></div>
+        </div>
+        <div class="plus-feature"><span class="feat-icon">2️⃣</span><span><strong>Pontos em dobro</strong> em toda a rede</span></div>
+        <div class="plus-feature"><span class="feat-icon">🎟️</span><span>Cupons exclusivos toda semana</span></div>
+        <div class="plus-feature"><span class="feat-icon">⚡</span><span>Acesso antecipado a promoções relâmpago</span></div>
+        <div class="plus-feature"><span class="feat-icon">📊</span><span>Relatório mensal dos seus gastos</span></div>
+        <div class="plus-feature"><span class="feat-icon">🏆</span><span>Badge exclusivo de cliente Fiel Plus</span></div>
+        <button class="btn-assinar" onclick="toast('Fiel Plus ativado! ⭐', 'success')">Assinar Fiel Plus — R$ 14,90/mês</button>
+        <div class="plus-cancel">Cancele quando quiser. Sem fidelidade mínima.</div>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item active" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+    <!-- ===== PERFIL ===== -->
+    <div class="screen" id="screen-perfil">
+      <div class="perfil-header">
+        <div class="perfil-avatar">🧑</div>
+        <div>
+          <h3>Tiago Castro</h3>
+          <p>tiago@email.com · ✨ Fiel Plus</p>
+        </div>
+      </div>
+      <div class="screen-inner">
+        <div class="perfil-group-label">Minha conta</div>
+        <div class="perfil-item"><span class="pi-icon">👤</span><span class="pi-text">Dados pessoais</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-item"><span class="pi-icon">🔔</span><span class="pi-text">Notificações</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-item"><span class="pi-icon">🔒</span><span class="pi-text">Privacidade e segurança</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-group-label">Fiel Plus</div>
+        <div class="perfil-item" onclick="goTo('plus')"><span class="pi-icon">⭐</span><span class="pi-text">Minha assinatura Plus</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-item"><span class="pi-icon">💳</span><span class="pi-text">Formas de pagamento</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-group-label">Ajuda</div>
+        <div class="perfil-item"><span class="pi-icon">❓</span><span class="pi-text">Central de ajuda</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-item"><span class="pi-icon">💬</span><span class="pi-text">Fale conosco</span><span class="pi-arrow">›</span></div>
+        <div class="perfil-item" onclick="goTo('login')"><span class="pi-icon">🚪</span><span class="pi-text" style="color:#e04040;">Sair</span></div>
+        <div style="height:16px;"></div>
+      </div>
+      <div class="bottom-nav">
+        <div class="bnav-item" onclick="goTo('home')"><div class="bn-icon">🏠</div><div class="bn-label">Início</div></div>
+        <div class="bnav-item" onclick="goTo('mapa')"><div class="bn-icon">🗺️</div><div class="bn-label">Parceiros</div></div>
+        <div class="bnav-item bnav-qr" onclick="goTo('qr')"><div class="bn-icon-wrap">📷</div><div class="bn-label">Escanear</div></div>
+        <div class="bnav-item" onclick="goTo('historico')"><div class="bn-icon">📋</div><div class="bn-label">Histórico</div></div>
+        <div class="bnav-item active" onclick="goTo('perfil')"><div class="bn-icon">👤</div><div class="bn-label">Perfil</div></div>
+      </div>
+    </div>
+
+  </div><!-- /phone-frame -->
+</div><!-- /app-wrapper -->
+
+<div class="toast" id="toast-el"></div>
+
+<script>
+  // Status bar updates per screen
+  const statusColors = {
+    login: '#1B6B3A',
+    home: '#1B6B3A',
+    mapa: '#1B6B3A',
+    qr: '#111',
+    historico: '#1B6B3A',
+    resgatar: '#1B6B3A',
+    plus: '#E8A020',
+    perfil: '#1B6B3A',
+  };
+
+  function goTo(screen) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen-' + screen);
+    if (target) target.classList.add('active');
+
+    // Update status bar color
+    const color = statusColors[screen] || '#1B6B3A';
+    const sb = document.getElementById('status-bar');
+    if (sb) sb.style.background = color;
+  }
+
+  // QR simulation
+  function simulateScan() {
+    toast('✅ +56 pontos adicionados! Café do Cerrado', 'success');
+    setTimeout(() => goTo('home'), 1800);
+  }
+
+  // Toast
+  let toastTimer;
+  function toast(msg, type = '') {
+    const el = document.getElementById('toast-el');
+    el.textContent = msg;
+    el.className = 'toast show' + (type ? ' ' + type : '');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+  }
+</script>
+</body>
+</html>

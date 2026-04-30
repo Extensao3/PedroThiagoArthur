@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiel Patrocínio — O comércio local mais forte e conectado</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1B6B3A;
+    --verde-claro: #27A85A;
+    --verde-menta: #E8F5EE;
+    --verde-escuro: #0d4a28;
+    --amarelo: #F5C842;
+    --amarelo-escuro: #E8A020;
+    --preto: #111;
+    --cinza: #666;
+    --cinza-claro: #F4F4F4;
+    --branco: #fff;
+    --radius: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--branco); color: var(--preto); overflow-x: hidden; }
+
+  /* ===== NAVBAR ===== */
+  .navbar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6vw;
+    height: 68px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    transition: box-shadow 0.3s;
+  }
+  .navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--verde);
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--amarelo-escuro); }
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--cinza);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .nav-link:hover { color: var(--verde); background: var(--verde-menta); }
+  .nav-btn {
+    background: var(--verde);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-left: 4px;
+  }
+  .nav-btn:hover { background: var(--verde-escuro); transform: translateY(-1px); }
+  .nav-btn.outline {
+    background: transparent;
+    color: var(--verde);
+    border: 2px solid var(--verde);
+  }
+  .nav-btn.outline:hover { background: var(--verde-menta); }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--verde) 0%, #0a3d20 55%, #05250f 100%);
+    display: flex;
+    align-items: center;
+    padding: 100px 6vw 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 80% 50%, rgba(245,200,66,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 80% at 10% 80%, rgba(39,168,90,0.15) 0%, transparent 60%);
+  }
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,200,66,0.15);
+    border: 1px solid rgba(245,200,66,0.3);
+    color: var(--amarelo);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 800;
+    color: white;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero h1 em { color: var(--amarelo); font-style: normal; }
+  .hero p {
+    font-size: 17px;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-hero-primary {
+    background: var(--amarelo);
+    color: var(--preto);
+    border: none;
+    border-radius: 12px;
+    padding: 15px 28px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .btn-hero-primary:hover { background: #f7d44f; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,200,66,0.4); }
+  .btn-hero-secondary {
+    background: rgba(255,255,255,0.1);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 12px;
+    padding: 15px 28px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+  .btn-hero-secondary:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.5); }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .phone-mockup {
+    width: 260px;
+    height: 520px;
+    background: white;
+    border-radius: 40px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 10px rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+  }
+  .phone-mockup-status {
+    height: 44px;
+    background: var(--verde);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 18px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.8);
+  }
+  .phone-mockup-header {
+    background: var(--verde);
+    padding: 16px 18px 22px;
+    color: white;
+  }
+  .phone-mockup-header p { font-size: 12px; opacity: 0.7; }
+  .phone-mockup-header h2 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; }
+  .phone-mockup-header .badge-pill {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--preto);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-top: 5px;
+  }
+  .pontos-card-mini {
+    background: linear-gradient(135deg, var(--verde), var(--verde-escuro));
+    margin: -10px 14px 12px;
+    border-radius: 16px;
+    padding: 16px;
+    color: white;
+    box-shadow: 0 6px 20px rgba(27,107,58,0.4);
+  }
+  .pontos-card-mini .pts-num { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; }
+  .pontos-card-mini .pts-lbl { font-size: 11px; opacity: 0.6; margin-bottom: 4px; }
+  .pontos-card-mini .pts-sub { font-size: 10px; opacity: 0.5; margin-top: 3px; }
+  .qa-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 14px 12px; }
+  .qa-mini-btn { background: white; border-radius: 12px; padding: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); font-size: 10px; font-weight: 600; text-align: center; }
+  .qa-mini-btn .icon { font-size: 18px; display: block; margin-bottom: 3px; }
+  .parceiro-mini { display: flex; align-items: center; gap: 8px; background: white; margin: 0 14px 6px; border-radius: 10px; padding: 9px 12px; box-shadow: 0 1px 6px rgba(0,0,0,0.05); font-size: 11px; }
+  .parceiro-mini .p-icon { width: 28px; height: 28px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+  .parceiro-mini strong { font-size: 12px; display: block; }
+  .parceiro-mini span { font-size: 10px; color: var(--cinza); }
+  .parceiro-mini .pts-badge { margin-left: auto; background: var(--verde-menta); color: var(--verde); font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 100px; }
+
+  .floating-card {
+    position: absolute;
+    background: white;
+    border-radius: 14px;
+    padding: 12px 14px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px;
+    z-index: 3;
+    animation: floatCard 3s ease-in-out infinite;
+  }
+  .floating-card.left {
+    left: -60px;
+    bottom: 120px;
+    animation-delay: 0.5s;
+  }
+  .floating-card.right {
+    right: -50px;
+    top: 100px;
+    animation-delay: 1s;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .float-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .float-icon.green { background: var(--verde-menta); }
+  .float-icon.yellow { background: #FFF8D0; }
+
+  /* ===== STATS BAND ===== */
+  .stats-band {
+    background: var(--amarelo);
+    padding: 0;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .stat-item {
+    text-align: center;
+    padding: 32px 20px;
+    border-right: 1px solid rgba(0,0,0,0.08);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item .val { font-family: 'Syne', sans-serif; font-size: 38px; font-weight: 800; color: var(--preto); }
+  .stat-item .lbl { font-size: 13px; color: rgba(0,0,0,0.6); margin-top: 4px; }
+
+  /* ===== SECTION BASE ===== */
+  .section { padding: 88px 6vw; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--verde-claro);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(26px, 3vw, 40px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 16px;
+    color: var(--cinza);
+    line-height: 1.7;
+    max-width: 540px;
+    margin-bottom: 52px;
+  }
+
+  /* ===== FEATURES ===== */
+  .features-section { background: var(--cinza-claro); }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid #ebebeb;
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .feat-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.08); border-color: #ddd; }
+  .feat-emoji-wrap {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: var(--verde-menta);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 18px;
+  }
+  .feat-card h3 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .feat-card p { font-size: 14px; color: var(--cinza); line-height: 1.6; }
+
+  /* ===== HOW IT WORKS ===== */
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step-card { text-align: center; padding: 28px 16px; }
+  .step-num {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--verde);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+  }
+  .step-card h3 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .step-card p { font-size: 13.5px; color: var(--cinza); line-height: 1.6; }
+  .step-connector {
+    display: flex; align-items: center; justify-content: center;
+    padding-top: 24px;
+    color: #ccc;
+    font-size: 24px;
+  }
+
+  /* ===== PLUS SECTION ===== */
+  .plus-section {
+    background: linear-gradient(135deg, #F5C842 0%, #E8A020 100%);
+  }
+  .plus-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  .plus-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(0,0,0,0.1);
+    color: var(--preto);
+    font-size: 11px; font-weight: 700;
+    padding: 5px 12px; border-radius: 100px;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .plus-section .section-title { color: var(--preto); margin-bottom: 10px; }
+  .plus-price {
+    font-family: 'Syne', sans-serif;
+    font-size: 52px;
+    font-weight: 800;
+    color: var(--preto);
+    line-height: 1;
+    margin: 16px 0 8px;
+  }
+  .plus-price sup { font-size: 22px; vertical-align: super; }
+  .plus-price sub { font-size: 18px; }
+  .plus-sub { font-size: 14px; color: rgba(0,0,0,0.55); margin-bottom: 28px; }
+  .plus-features-list { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+  .plus-features-list li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--preto);
+  }
+  .plus-features-list li .check {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--preto);
+    color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .btn-plus {
+    background: var(--preto);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-plus:hover { background: #222; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+  .plus-visual {
+    display: flex; flex-direction: column; gap: 12px;
+    padding: 8px;
+  }
+  .plus-card-preview {
+    background: rgba(0,0,0,0.08);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; align-items: center; gap: 14px;
+    backdrop-filter: blur(4px);
+  }
+  .plus-card-preview .pc-icon { font-size: 28px; }
+  .plus-card-preview strong { font-size: 15px; display: block; }
+  .plus-card-preview span { font-size: 12px; opacity: 0.6; }
+
+  /* ===== LOJISTA SECTION ===== */
+  .lojista-section { background: var(--verde-escuro); }
+  .lojista-section .section-eyebrow { color: var(--amarelo); }
+  .lojista-section .section-title { color: white; }
+  .lojista-section .section-sub { color: rgba(255,255,255,0.6); }
+  .lojista-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+  .lojista-feat {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .lojista-feat .lf-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .lojista-feat h4 { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .lojista-feat p { font-size: 13.5px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+  .btn-lojista {
+    background: var(--amarelo);
+    color: var(--preto);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 32px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-lojista:hover { background: #f7d44f; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,200,66,0.35); }
+
+  /* ===== SOCIAL PROOF ===== */
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 26px;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .stars { color: var(--amarelo); font-size: 16px; margin-bottom: 14px; }
+  .testimonial-card p { font-size: 14px; color: #444; line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+  .testimonial-author { display: flex; align-items: center; gap: 10px; }
+  .author-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: var(--verde-menta);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .author-name { font-size: 13px; font-weight: 600; }
+  .author-sub { font-size: 11px; color: var(--cinza); }
+
+  /* ===== CTA FINAL ===== */
+  .cta-final {
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-escuro) 100%);
+    padding: 100px 6vw;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-final::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 70% at 50% 0%, rgba(245,200,66,0.1) 0%, transparent 60%);
+  }
+  .cta-final-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+  .cta-final h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 3.5vw, 46px);
+    font-weight: 800;
+    color: white;
+    margin-bottom: 16px;
+    line-height: 1.15;
+  }
+  .cta-final p { font-size: 16px; color: rgba(255,255,255,0.65); margin-bottom: 36px; line-height: 1.7; }
+  .cta-final-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: #0a0a0a;
+    color: white;
+    padding: 52px 6vw 28px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 28px;
+  }
+  .footer-brand .logo {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .footer-brand .logo span { color: var(--amarelo); }
+  .footer-brand p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 240px; }
+  .footer-col h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
+  .footer-col a {
+    display: block;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+    cursor: pointer;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Smooth scroll & animations */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .animate { opacity: 0; }
+  .animate.visible { animation: fadeUp 0.6s ease forwards; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero-visual { display: none; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .steps-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .lojista-grid { grid-template-columns: 1fr 1fr; }
+    .testimonials-grid { grid-template-columns: 1fr 1fr; }
+    .plus-inner { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .nav-links .nav-link { display: none; }
+    .navbar { padding: 0 4vw; }
+    .hero { padding: 90px 4vw 50px; }
+    .section { padding: 60px 4vw; }
+    .features-grid, .lojista-grid, .testimonials-grid, .steps-grid { grid-template-columns: 1fr; }
+    .stats-inner { grid-template-columns: 1fr; }
+    .stat-item { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .stat-item:last-child { border-bottom: none; }
+    .footer-top { grid-template-columns: 1fr; }
+    .cta-final-btns { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <a class="nav-logo" href="#">🌿 Fiel <span>Patrocínio</span></a>
+  <div class="nav-links">
+    <a class="nav-link" href="#features">Como funciona</a>
+    <a class="nav-link" href="#plus">Fiel Plus</a>
+    <a class="nav-link" href="#lojistas">Lojistas</a>
+    <button class="nav-btn outline" onclick="window.location.href='painel-lojista.html'">🏪 Painel Lojista</button>
+    <button class="nav-btn" onclick="window.location.href='app-cliente.html'">📱 Baixar o app</button>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-text">
+      <div class="hero-eyebrow">🌿 Feito em Patrocínio — MG</div>
+      <h1>O comércio local <em>mais forte</em> e conectado</h1>
+      <p>Um único app que une clientes e lojistas de Patrocínio em uma rede de pontos compartilhada. Compre local, acumule pontos, resgate onde quiser.</p>
+      <div class="hero-cta">
+        <a class="btn-hero-primary" href="app-cliente.html">📱 Baixar o app</a>
+        <a class="btn-hero-secondary" href="painel-lojista.html">🏪 Sou lojista →</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <!-- Floating cards -->
+      <div class="floating-card left">
+        <div class="float-icon green">☕</div>
+        <div>
+          <div style="font-size:11px; font-weight:700;">Café do Cerrado</div>
+          <div style="font-size:10px; color:#888;">+56 pontos ganhos</div>
+        </div>
+      </div>
+      <div class="floating-card right">
+        <div class="float-icon yellow">⭐</div>
+        <div>
+          <div style="font-size:11px; font-weight:700;">Fiel Plus ativo</div>
+          <div style="font-size:10px; color:#888;">Pontos em dobro</div>
+        </div>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="phone-mockup">
+        <div class="phone-mockup-status"><span>9:41</span><span>📶 🔋</span></div>
+        <div class="phone-mockup-header">
+          <p>Olá, Tiago 👋</p>
+          <h2>Bom dia!</h2>
+          <div class="badge-pill">✨ Fiel Plus ativo</div>
+        </div>
+        <div class="pontos-card-mini">
+          <div class="pts-lbl">Seus pontos acumulados</div>
+          <div class="pts-num">1.240</div>
+          <div class="pts-sub">🏪 Válidos em 38 parceiros</div>
+        </div>
+        <div class="qa-mini">
+          <div class="qa-mini-btn"><span class="icon">📷</span>Registrar</div>
+          <div class="qa-mini-btn"><span class="icon">🎁</span>Resgatar</div>
+          <div class="qa-mini-btn"><span class="icon">🗺️</span>Parceiros</div>
+          <div class="qa-mini-btn"><span class="icon">📋</span>Histórico</div>
+        </div>
+        <div class="parceiro-mini">
+          <div class="p-icon" style="background:#FFF3E0">☕</div>
+          <div><strong>Café do Cerrado</strong><span>Cafeteria · Centro</span></div>
+          <div class="pts-badge">2x pts</div>
+        </div>
+        <div class="parceiro-mini">
+          <div class="p-icon" style="background:#E8F0FF">👗</div>
+          <div><strong>Moda Patrocínio</strong><span>Vestuário · Av. Brasil</span></div>
+          <div class="pts-badge">+50</div>
+        </div>
+        <div class="parceiro-mini">
+          <div class="p-icon" style="background:#F0FFF0">🥩</div>
+          <div><strong>Açougue do Zé</strong><span>Bairro Novo</span></div>
+          <div class="pts-badge">1pt/R$1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="val">4.500+</div>
+      <div class="lbl">empresas em Patrocínio</div>
+    </div>
+    <div class="stat-item">
+      <div class="val">100k</div>
+      <div class="lbl">habitantes na cidade</div>
+    </div>
+    <div class="stat-item">
+      <div class="val">70%</div>
+      <div class="lbl">dos consumidores preferem fidelidade</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FEATURES ===== -->
+<section class="section features-section" id="features">
+  <div class="section-inner">
+    <div class="section-eyebrow">Funcionalidades</div>
+    <h2 class="section-title">Tudo que você precisa<br>em um único lugar</h2>
+    <p class="section-sub">Simples para o cliente, poderoso para o lojista. A plataforma foi pensada para o comércio de Patrocínio.</p>
+    <div class="features-grid">
+      <div class="feat-card animate">
+        <div class="feat-emoji-wrap">🏪</div>
+        <h3>Rede unificada</h3>
+        <p>Acumule e resgate pontos em qualquer estabelecimento parceiro da cidade, sem restrições de loja.</p>
+      </div>
+      <div class="feat-card animate" style="animation-delay:.1s">
+        <div class="feat-emoji-wrap">📊</div>
+        <h3>Dados reais</h3>
+        <p>Lojistas acessam relatórios de frequência, ticket médio e perfil de clientes em tempo real.</p>
+      </div>
+      <div class="feat-card animate" style="animation-delay:.2s">
+        <div class="feat-emoji-wrap">📣</div>
+        <h3>Campanhas inteligentes</h3>
+        <p>Crie campanhas automáticas baseadas no comportamento dos clientes e aumente o retorno.</p>
+      </div>
+      <div class="feat-card animate" style="animation-delay:.3s">
+        <div class="feat-emoji-wrap">📷</div>
+        <h3>QR Code simples</h3>
+        <p>Registro de compras instantâneo via QR Code. Sem maquininha extra, sem complicação.</p>
+      </div>
+      <div class="feat-card animate" style="animation-delay:.4s">
+        <div class="feat-emoji-wrap">⭐</div>
+        <h3>Fiel Plus</h3>
+        <p>Clientes assinam o plano Plus por R$14,90/mês e acumulam pontos em dobro em toda a rede.</p>
+      </div>
+      <div class="feat-card animate" style="animation-delay:.5s">
+        <div class="feat-emoji-wrap">💚</div>
+        <h3>Feito em Patrocínio</h3>
+        <p>Desenvolvido por estudantes locais para fortalecer a economia e o comércio da nossa cidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="section-eyebrow">Como funciona</div>
+    <h2 class="section-title">Em 4 passos simples</h2>
+    <p class="section-sub">Começar a usar o Fiel Patrocínio é rápido e grátis para o cliente.</p>
+    <div class="steps-grid">
+      <div class="step-card animate">
+        <div class="step-num">1</div>
+        <h3>Baixe o app</h3>
+        <p>Faça o download grátis e crie sua conta com e-mail ou CPF em menos de 2 minutos.</p>
+      </div>
+      <div class="step-card animate" style="animation-delay:.15s">
+        <div class="step-num">2</div>
+        <h3>Compre local</h3>
+        <p>Realize compras em qualquer parceiro da rede Fiel Patrocínio na cidade.</p>
+      </div>
+      <div class="step-card animate" style="animation-delay:.3s">
+        <div class="step-num">3</div>
+        <h3>Escaneie o QR</h3>
+        <p>Peça o QR Code do lojista e escaneie com o app para registrar sua compra e ganhar pontos.</p>
+      </div>
+      <div class="step-card animate" style="animation-delay:.45s">
+        <div class="step-num">4</div>
+        <h3>Resgate prêmios</h3>
+        <p>Use seus pontos para resgatar descontos, produtos e experiências em toda a rede.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLUS ===== -->
+<section class="section plus-section" id="plus">
+  <div class="plus-inner" style="max-width:1200px; margin:0 auto; padding:0 6vw;">
+    <div>
+      <div class="plus-badge">⭐ Fiel Plus</div>
+      <h2 class="section-title">Turbine sua fidelidade</h2>
+      <div class="plus-price"><sup>R$</sup>14<sup>,90</sup><sub>/mês</sub></div>
+      <p class="plus-sub">Cancele quando quiser. Sem fidelidade mínima.</p>
+      <ul class="plus-features-list">
+        <li><div class="check">✓</div> Pontos em dobro em toda a rede</li>
+        <li><div class="check">✓</div> Cupons exclusivos toda semana</li>
+        <li><div class="check">✓</div> Acesso antecipado a promoções relâmpago</li>
+        <li><div class="check">✓</div> Relatório mensal dos seus gastos</li>
+        <li><div class="check">✓</div> Badge exclusivo de cliente Fiel Plus</li>
+      </ul>
+      <button class="btn-plus" onclick="window.location.href='app-cliente.html'">⭐ Assinar Fiel Plus</button>
+    </div>
+    <div class="plus-visual">
+      <div class="plus-card-preview">
+        <div class="pc-icon">2️⃣</div>
+        <div><strong>Pontos em dobro hoje!</strong><span>Café do Cerrado · 2x pts ativos</span></div>
+      </div>
+      <div class="plus-card-preview">
+        <div class="pc-icon">🎟️</div>
+        <div><strong>Cupom exclusivo</strong><span>R$15 de desconto na Moda Patrocínio</span></div>
+      </div>
+      <div class="plus-card-preview">
+        <div class="pc-icon">⚡</div>
+        <div><strong>Promoção relâmpago</strong><span>Acesso antecipado ativo por 2h</span></div>
+      </div>
+      <div class="plus-card-preview">
+        <div class="pc-icon">🏆</div>
+        <div><strong>Você é Fiel Plus</strong><span>Badge exclusivo visível nos parceiros</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LOJISTAS ===== -->
+<section class="section lojista-section" id="lojistas">
+  <div class="section-inner">
+    <div class="section-eyebrow">Para lojistas</div>
+    <h2 class="section-title">Fidelize mais clientes,<br>venda mais</h2>
+    <p class="section-sub">Com o painel Fiel você tem visão completa do seu negócio e ferramentas para crescer.</p>
+    <div class="lojista-grid">
+      <div class="lojista-feat">
+        <span class="lf-icon">📊</span>
+        <h4>Painel completo</h4>
+        <p>Veja métricas em tempo real: clientes ativos, taxa de retorno, ticket médio e pontos distribuídos.</p>
+      </div>
+      <div class="lojista-feat">
+        <span class="lf-icon">📣</span>
+        <h4>Campanhas automáticas</h4>
+        <p>Reative clientes inativos, celebre aniversariantes e crie promoções com poucos cliques.</p>
+      </div>
+      <div class="lojista-feat">
+        <span class="lf-icon">📷</span>
+        <h4>QR Code exclusivo</h4>
+        <p>Cada loja recebe um QR Code único para registrar compras. Imprima e coloque no balcão.</p>
+      </div>
+    </div>
+    <button class="btn-lojista" onclick="window.location.href='painel-lojista.html'">🏪 Acessar painel do lojista →</button>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section" style="background:var(--cinza-claro)">
+  <div class="section-inner">
+    <div class="section-eyebrow">Depoimentos</div>
+    <h2 class="section-title">O que dizem os usuários</h2>
+    <p class="section-sub" style="margin-bottom:40px;">Clientes e lojistas de Patrocínio já usando o Fiel.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card animate">
+        <div class="stars">★★★★★</div>
+        <p>"Compro todo dia no café e agora acumulo pontos sem precisar de nada extra. Simples demais!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👩</div>
+          <div><div class="author-name">Ana Lima</div><div class="author-sub">Usuária Fiel Plus · Centro</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card animate" style="animation-delay:.1s">
+        <div class="stars">★★★★★</div>
+        <p>"Desde que entrei na rede Fiel, meus clientes voltam muito mais. O painel de campanhas é incrível."</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">☕</div>
+          <div><div class="author-name">Café do Cerrado</div><div class="author-sub">Lojista · Plano Pro</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card animate" style="animation-delay:.2s">
+        <div class="stars">★★★★★</div>
+        <p>"Resgatei um desconto no mercadinho com pontos que ganhei na farmácia. Isso é muito prático!"</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">👨</div>
+          <div><div class="author-name">Carlos Souza</div><div class="author-sub">Usuário · Bairro Novo</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA FINAL ===== -->
+<section class="cta-final">
+  <div class="cta-final-inner">
+    <h2>Comece a acumular pontos hoje mesmo</h2>
+    <p>Faça parte da rede de fidelidade de Patrocínio. Grátis para clientes, planos acessíveis para lojistas.</p>
+    <div class="cta-final-btns">
+      <a class="btn-hero-primary" href="app-cliente.html">📱 Baixar o app — grátis</a>
+      <a class="btn-hero-secondary" href="painel-lojista.html">🏪 Sou lojista</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="logo">🌿 Fiel <span>Patrocínio</span></div>
+        <p>Desenvolvido por estudantes locais para fortalecer o comércio e a economia de Patrocínio — MG.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Produto</h4>
+        <a href="app-cliente.html">App Cliente</a>
+        <a href="painel-lojista.html">Painel Lojista</a>
+        <a href="#plus">Fiel Plus</a>
+        <a href="#features">Funcionalidades</a>
+      </div>
+      <div class="footer-col">
+        <h4>Lojistas</h4>
+        <a href="painel-lojista.html">Acessar painel</a>
+        <a href="#">Planos e preços</a>
+        <a href="#">Suporte</a>
+        <a href="#">API</a>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="#">Sobre nós</a>
+        <a href="#">Blog</a>
+        <a href="#">Termos de uso</a>
+        <a href="#">Privacidade</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Fiel Patrocínio. Feito com ❤️ em Patrocínio — MG</span>
+      <span>Todos os direitos reservados</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Navbar scroll shadow
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Intersection Observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.animate').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
